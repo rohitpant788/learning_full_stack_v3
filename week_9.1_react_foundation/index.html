@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="buttonParent">
+    </div>
+
+    <script>
+
+
+        /*Step 1 -  Initializing the state variable */
+        let state = {
+            count : 0
+        }
+
+        /*Step 2 - We have to define what will happen on my Button Click */
+        function onButtonClick() {
+            //state.count ++
+            state.count = state.count + 1
+            buttonComponentRerender()
+        }
+
+        /*Step 3 - Render Fucntion */
+        function buttonComponentRerender(){
+            //Remove the existing child component
+            document.getElementById("buttonParent").innerHTML = "";
+
+            //Creating a new button component
+            const component = buttonComponent(state.count);
+
+            //Adding back the new button Component
+            document.getElementById("buttonParent").appendChild(component);
+        }
+        
+        /*Step 4 : Function which returns  you a button provided state*/
+        function buttonComponent(count){
+            const button = document.createElement("button");
+            button.innerHTML = `Counter ${count}`
+            button.onclick = onButtonClick;
+
+            return button;
+        }
+
+        buttonComponentRerender()
+
+    </script>
+</body>
+</html>
