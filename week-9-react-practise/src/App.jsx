@@ -2,46 +2,44 @@ import { useEffect, useState } from "react"
 
 function App() {
 
-  const [counterVisble, setCounterVisible] = useState(true);
+  const [count, setCount] = useState(0);
+  const [count2, setCount2] = useState(0);
 
-  useEffect(function () {
-    setInterval(function () {
-      setCounterVisible(function (counterVisble) {
-        return !counterVisble
-      })
-    }, 5000);
-  }, []);
+  function increaseCount1(){
+    setCount(count => count + 1)
+  }
 
+  function decreaseCount2(){
+    setCount2(count2 => count2 - 1)
+  }
   return <>
-    {counterVisble && <Counter />}
+    <Counter count1={count} count2={count2} />
+    <button onClick={increaseCount1}>Increase Count 1</button>
+    <button onClick={decreaseCount2}>Decrease Count 2</button>
   </>
 }
 
-function Counter() {
-  //React doesnot rerenders itself if i create count as normal variables , 
-  //rather it only rerenders if this is state variable 
-  const [count, setCount] = useState(0);
+function Counter(props) {
 
-
-  console.log("counter");
-  useEffect(function () {
+  useEffect(function(){
     console.log("On Component Mount")
-    let clock = setInterval(
-      function () {
-        console.log("from inside setInterval");
-        setCount(function (count) {
-          return count + 1;
-        })
-      },
-      1000)
-    return function () {
-      console.log("On Unmount....");
-      clearInterval(clock);
+
+    return function(){
+      console.log("On Component UnMount");
     }
-  }, []);
+  },[]);
+
+  useEffect(function(){
+    console.log("On Component Mount")
+
+    return function(){
+      console.log("On Component UnMount");
+    }
+  },[props.count1]);
 
   return <>
-    <b>{count}</b><br />
+    <b>{props.count1}</b><br />
+    <b>{props.count2}</b><br />
   </>
 
 }
