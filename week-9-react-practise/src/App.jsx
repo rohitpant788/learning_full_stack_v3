@@ -1,8 +1,19 @@
 import { useEffect, useState } from "react"
 
 function App() {
+
+  const [counterVisble, setCounterVisible] = useState(true);
+
+  useEffect(function () {
+    setInterval(function () {
+      setCounterVisible(function (counterVisble) {
+        return !counterVisble
+      })
+    }, 5000);
+  }, []);
+
   return <>
-    <Counter />
+    {counterVisble && <Counter />}
   </>
 }
 
@@ -11,6 +22,7 @@ function Counter() {
   //rather it only rerenders if this is state variable 
   const [count, setCount] = useState(0);
 
+
   console.log("counter");
   useEffect(function () {
     setInterval(
@@ -18,9 +30,9 @@ function Counter() {
         setCount(function (count) {
           return count + 1;
         })
-      }, 
+      },
       1000)
-      console.log("mounted");
+    console.log("mounted");
   }, []);
 
   return <>
