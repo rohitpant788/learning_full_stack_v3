@@ -25,14 +25,19 @@ function Counter() {
 
   console.log("counter");
   useEffect(function () {
-    setInterval(
+    console.log("On Component Mount")
+    let clock = setInterval(
       function () {
+        console.log("from inside setInterval");
         setCount(function (count) {
           return count + 1;
         })
       },
       1000)
-    console.log("mounted");
+    return function () {
+      console.log("On Unmount....");
+      clearInterval(clock);
+    }
   }, []);
 
   return <>
