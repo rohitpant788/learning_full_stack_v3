@@ -1,44 +1,45 @@
 import { useState } from "react"
 import { PostComponent } from "./Post"
+import { useEffect } from "react"
 
 function App() {
 
-  const [posts, setPosts] = useState([])
+  const [currenTab, setCurrenTab] = useState(1)
+  const [tabData, setTabData] = useState({})
+  const [loading, setLoading] = useState(true)
 
-  //[<PostComponent>]
-  const postComponent = posts.map(post => <PostComponent 
-    name={post.name}
-    subTitle={post.subTitle}
-    time={post.time}
-    image={post.image}
-    description={post.description}
-  />)
+  useEffect(function(){
+    console.log("fetching data for tab #" +currenTab)
+    setLoading(true)
+    fetch("https://jsonplaceholder.typicode.com/todos/"+currenTab)
+    .then( async res => {
+      const json = await res.json();
+      setTabData(json);
+      setLoading(false);
+    })
 
-  const appComponentSyle = {
-    backgroundColor: "#dfe6e9",
-    height: "100vh"
-  }
 
-  function addPost(){
-    setPosts([...posts,    {
-      name : "harkirat",
-      subTitle : "10000 followers",
-      time : "2m ago",
-      image: "https://appx-wsb-gcp-mcdn.akamai.net.in/subject/2023-01-17-0.17044360120951185.jpg",
-      description: "What to know how to win big ? Check out how these folks won $6000 in bounties."
-    }])
-  }
+  },[currenTab])
+
+
 
   return (
-    <div style={appComponentSyle}>
-      <button onClick={addPost}>Add Post</button>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div>
-          <div>
-            {postComponent}
-          </div>
-        </div>
-      </div>
+    <div>
+      <button onClick={function () {
+        setCurrenTab(1)
+      }} style={{ color: currenTab == 1 ? "red" : "black" }}>Todo #1</button>
+      <button onClick={function () {
+        setCurrenTab(2)
+      }} style={{ color: currenTab == 2 ? "red" : "black" }}>Todo #2</button>
+      <button onClick={function () {
+        setCurrenTab(3)
+      }} style={{ color: currenTab == 3 ? "red" : "black" }}>Todo #3</button>
+      <button onClick={function () {
+        setCurrenTab(4)
+      }} style={{ color: currenTab == 4 ? "red" : "black" }}>Todo #4</button>
+
+      <br/>
+      {loading ? "Loading........." : tabData.title}
     </div>
   )
 }
