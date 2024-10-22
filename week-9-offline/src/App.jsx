@@ -1,32 +1,28 @@
-import React from 'react';
 
-const Card = ({ children }) => {
-    return (
-        <div style={{
-            border: '1px solid #ccc',
-            borderRadius: '5px',
-            padding: '20px',
-            margin: '10px',
-            boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)',
-        }}>
-            {children}
-        </div>
-    );
-};
+function App() {
 
-const App = () => {
-    return (
-        <div>
-            <Card>
-                <h2>Card Title</h2>
-                <p>This is some content inside the card.</p>
-            </Card>
-            <Card>
-                <h2>Another Card</h2>
-                <p>This card has different content!</p>
-            </Card>
-        </div>
-    );
-};
+  const items = [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    { id: 3, name: 'Item 3' },
+];
 
-export default App;
+return <ItemList props={items} />;
+}
+
+function ItemList ({props}){
+
+  //Creating a list of li components...
+  const lis = props.map(
+
+    function (prop){
+      return <li key={prop.id}>{prop.name}</li>
+    }
+  )
+
+  return <div>
+    {lis}
+  </div>
+}
+
+export default App
