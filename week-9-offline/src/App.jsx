@@ -1,28 +1,49 @@
+import React from "react";
 
 function App() {
 
-  const items = [
-    { id: 1, name: 'Item 1' },
-    { id: 2, name: 'Item 2' },
-    { id: 3, name: 'Item 3' },
-];
-
-return <ItemList props={items} />;
-}
-
-function ItemList ({props}){
-
-  //Creating a list of li components...
-  const lis = props.map(
-
-    function (prop){
-      return <li key={prop.id}>{prop.name}</li>
-    }
-  )
-
   return <div>
-    {lis}
+    <ErrorBoundary>
+      <Card1></Card1>
+    </ErrorBoundary>
+    <Card2></Card2>
   </div>
 }
 
+function Card1() {
+  throw new Error
+
+  return <div>
+    Card 1 says hello!
+  </div>
+}
+
+function Card2() {
+  return <div>
+    Card 2 says hello!
+  </div>
+}
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("Error caught:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
 export default App
