@@ -14,13 +14,16 @@ function App() {
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/neet/online-coaching-class-11" element={<Class11Program />}></Route>
           <Route path="/neet/online-coaching-class-12" element={<Class12Program />}></Route>
+          <Route path="/*" element={<NoPage />}></Route>
         </Routes>
       </BrowserRouter>
     </>
   )
 }
 
-
+function NoPage(){
+  return <div>No Page 404...</div>
+}
 function LandingPage() {
   return <div>Welcome to Allen... !</div>
 }
