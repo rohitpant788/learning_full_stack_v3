@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -30,7 +30,16 @@ function Class11Program() {
 }
 
 function Class12Program() {
-  return <div> This is for Class 12 Program...!</div>
+
+  const  navigate = useNavigate()
+
+  function redirectUser(){
+    navigate("/")
+  }
+
+  return <div> This is for Class 12 Program...!
+    <button onClick={redirectUser}>Back To Landing Page..</button>
+  </div>
 }
 
 export default App
