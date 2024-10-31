@@ -1,16 +1,29 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
 function App() {
 
-  const inputRef = useRef();
+  //State Variables are guarded on state change, ie. they doesnot renders on state change.
+  const [clock,setClock] = useState(0);
+  
+  const timer = useRef();
 
-  function handleOnClick(){
-    inputRef.current.focus();
+  function startClock (){
+    let value = setInterval(function (){
+      return setClock(c => c+1)
+    },1000)
+
+    timer.current = value;
+  }
+
+  function stopClock (){
+    //Clearing a useRef will not trigger a rerender..
+    clearInterval(timer.current)
   }
 
   return <div>
-    <input ref={inputRef} placeholder='Click the button to focus me'></input>
-    <button onClick={handleOnClick}>Focus the Input Box</button>
+    {clock} <br/>
+    <button onClick={startClock}>Start</button>
+    <button onClick={stopClock}>Stop</button>
   </div>
 }
 
