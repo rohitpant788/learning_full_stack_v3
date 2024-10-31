@@ -1,67 +1,19 @@
-import { useState } from 'react'
-import { BrowserRouter, Link, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
+import { useRef } from "react"
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <BrowserRouter>
+  const inputRef = useRef();
 
-        <Routes>
-          <Route path="/" element={<Layout/>}>
-            <Route path="/" element={<LandingPage />}></Route>
-            <Route path="/neet/online-coaching-class-11" element={<Class11Program />}></Route>
-            <Route path="/neet/online-coaching-class-12" element={<Class12Program />}></Route>
-            <Route path="/*" element={<NoPage />}></Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
-}
-
-function Layout() {
-  return <div style={{background:"green", height: "100vh"}}> 
-    <Header/>
-    <div style={{background:"red", height: "90vh"}}>
-      <Outlet/>
-    </div>
-    Footer!
-  </div>
-}
-
-
-function Header() {
-  return <div>
-    <Link to="/">Allen</Link> | 
-        <Link to="/neet/online-coaching-class-11">Class11</Link> | 
-        <Link to="/neet/online-coaching-class-12">Class12</Link>
-  </div>
-}
-
-function NoPage(){
-  return <div>No Page 404...</div>
-}
-function LandingPage() {
-  return <div>Welcome to Allen... !</div>
-}
-
-function Class11Program() {
-  return <div> This is for Class 11 Program...!</div>
-}
-
-function Class12Program() {
-
-  const  navigate = useNavigate()
-
-  function redirectUser(){
-    navigate("/")
+  function handleOnClick(){
+    inputRef.current.focus();
   }
 
-  return <div> This is for Class 12 Program...!
-    <button onClick={redirectUser}>Back To Landing Page..</button>
+  return <div>
+    <input ref={inputRef} placeholder='Click the button to focus me'></input>
+    <button onClick={handleOnClick}>Focus the Input Box</button>
   </div>
 }
+
+
 
 export default App
