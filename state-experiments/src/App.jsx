@@ -1,35 +1,47 @@
-import { useState } from "react"
+import { createContext, useContext, useState } from "react"
+
+/* Step 1 : Create the bulb context */
+const BulbContext = createContext();
 
 function App() {
+  const [bulbOn, setBulbOn] = useState(true)
   return (
-    <Light/>
+    <div>
+      {/* Step 2 : Wrap the State Varible inside ContextProvider */}
+      <BulbContext.Provider value={{
+        bulbOn: bulbOn,
+        setBulbOn: setBulbOn
+      }}>
+        <Light />
+      </BulbContext.Provider>
+    </div>
   )
 }
 
+function Light() {
 
-function Light(){
-  const [bulbOn,setBulbOn] = useState(true)
 
   return <div>
-
-    {/* Passing props to children */}
-    <BulbState bulbOn={bulbOn}/>
-    <ToggleBulbState setBulbOn={setBulbOn}/>
-    
+    <BulbState />
+    <ToggleBulbState />
   </div>
 }
 
-function BulbState({bulbOn}){
-  
+function BulbState() {
+  /* Step 3 : Reteriving the state varible from BulbContext */
+  const { bulbOn } = useContext(BulbContext)
 
   return <div>
-    {bulbOn ? "Bulb On ": "Bulb Off"}
+    {bulbOn ? "Bulb On " : "Bulb Off"}
   </div>
 }
 
-function ToggleBulbState({setBulbOn}){
-  function toggleBulbState(){
-    setBulbOn(bulbstate=>!bulbstate)
+function ToggleBulbState() {
+  /* Step 3 : Reteriving the state varible from BulbContext */
+  const { setBulbOn } = useContext(BulbContext)
+
+  function toggleBulbState() {
+    setBulbOn(bulbstate => !bulbstate)
   }
   return <button onClick={toggleBulbState}>Toogle Bulb On/Off</button>
 }
