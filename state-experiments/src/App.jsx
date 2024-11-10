@@ -1,56 +1,41 @@
-import { createContext, useContext, useState } from "react"
+import React, { createContext, useContext, useState } from 'react';
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-/* Step 1 : Create the bulb context */
-const BulbContext = createContext();
+const count = atom({
+  key: 'countState', // unique ID (with respect to other atoms/selectors)
+  default: 0, // default value (aka initial value)
+});
 
-function BulbContextProvider({ children }) {
-  //Defining State Variables
-  const [bulbOn, setBulbOn] = useState(true)
-
-  //Step 2 : Wrap the State Varible inside ContextProvider
-  return <BulbContext.Provider value={{
-    bulbOn: bulbOn,
-    setBulbOn: setBulbOn
-  }}>
-    {children}
-  </BulbContext.Provider>
-}
-
-function App() {
-
+function Parent() {
   return (
-    <BulbContextProvider>
-      <Light />
-    </BulbContextProvider>
-  )
+    <RecoilRoot>
+      <Incrase />
+      <Decrease />
+      <Value />
+    </RecoilRoot>
+  );
 }
 
-function Light() {
+function Decrease() {
+  const setCount = useSetRecoilState(count);
+  return <button onClick={() => setCount(count => count - 1)}>Decrease</button>;
+}
 
+function Incrase() {
+  const setCount = useSetRecoilState(count);
+  return <button onClick={() => setCount(count => count + 1)}>Increase</button>;
+}
 
+function Value() {
+  const countValue = useRecoilValue(count);
+  return <p>Count: {countValue}</p>;
+}
+
+// App Component
+const App = () => {
   return <div>
-    <BulbState />
-    <ToggleBulbState />
+    <Parent />
   </div>
-}
+};
 
-function BulbState() {
-  /* Step 3 : Reteriving the state varible from BulbContext */
-  const { bulbOn } = useContext(BulbContext)
-
-  return <div>
-    {bulbOn ? "Bulb On " : "Bulb Off"}
-  </div>
-}
-
-function ToggleBulbState() {
-  /* Step 3 : Reteriving the state varible from BulbContext */
-  const { setBulbOn } = useContext(BulbContext)
-
-  function toggleBulbState() {
-    setBulbOn(bulbstate => !bulbstate)
-  }
-  return <button onClick={toggleBulbState}>Toogle Bulb On/Off</button>
-}
-
-export default App
+export default App;
